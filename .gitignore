@@ -1,3 +1,7 @@
+# Others
+*.iml
+.idea
+
 # Compiled class file
 *.class
 
