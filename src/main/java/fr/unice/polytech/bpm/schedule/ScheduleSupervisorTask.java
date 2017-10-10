@@ -90,8 +90,30 @@ public class ScheduleSupervisorTask extends ProcessTask {
      * @param variables
      */
     private void fillDate(Map<String, Object> variables) {
+        String sophiaTechId = nextLine("#id de la planification: ");
+        System.out.println("Date possible pour les étudiants: " + getStudentDates(sophiaTechId));
+        System.out.println("Date possible pour les entreprises: " + getCompanyDates(sophiaTechId));
+
         String location = nextLine("Date du Sophia Tech Forum: ");
         variables.put("date", location);
+    }
+
+    /**
+     * Get company dates
+     * @param sophiaTechId
+     * @return
+     */
+    private String getCompanyDates(String sophiaTechId) {
+       return "Dates des étudiants (TODO)";
+    }
+
+    /**
+     * Get student dates
+     * @param sophiaTechId
+     * @return
+     */
+    private String getStudentDates(String sophiaTechId) {
+        return "Dates des entreprises (TODO)";
     }
 
     /**
@@ -99,8 +121,15 @@ public class ScheduleSupervisorTask extends ProcessTask {
      * @param variables
      */
     private void fillLocation(Map<String, Object> variables) {
+        String sophiaTechId = nextLine("#id de la planification: ");
+        System.out.println("Date possible pour les étudiants: " + getPossibleLocations(sophiaTechId));
+
         String location = nextLine("Lieu du Sophia Tech Forum: ");
         variables.put("location", location);
+    }
+
+    private String getPossibleLocations(String sophiaTechId) {
+        return "Forums (TODO)";
     }
 
     /**
