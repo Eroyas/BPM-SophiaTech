@@ -38,6 +38,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
     @Override
     public void run() {
         String action = nextLine(String.format("Que voulez vous faire (%s,%s,%s) ? ", NEW, LIST, EXECUTE));
+        // Handle the differenr actions
         switch (action) {
             case NEW:
                 createNewProcess();
@@ -49,6 +50,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
                 executeTask();
                 break;
             default:
+                // Default fallback, no valid action given
                 System.err.println("Action invalide!");
                 break;
 
@@ -63,6 +65,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
         TaskService taskService = engine.getTaskService();
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 
+        // Ff the task is found, complete it
         if (task == null) {
             // TODO: check that role can validate task
             System.out.println("Tâche invalide!");
@@ -77,7 +80,8 @@ public class ScheduleSupervisorTask extends ProcessTask {
      */
     private void completeTask(Task task) {
         TaskService taskService = engine.getTaskService();
-        Map<String, Object> variables = new HashMap<String, Object>();
+        Map<String, Object> variables = new HashMap<>();
+        // Get the variables of the task
         switch(task.getName()) {
             case GET_COMPANY_AVAILABILITY:
                 fillAvailabilityDetails(variables);
@@ -91,6 +95,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
             default:
                 System.err.println("Tâche avec aucune entrée!!");
         }
+        // Mark the task as completed with the user variables
         taskService.complete(task.getId(), variables);
     }
 
@@ -99,6 +104,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
      * @param variables
      */
     private void fillDate(Map<String, Object> variables) {
+        // Get the dates from the previous tasks and ask for a final date
         String sophiaTechId = nextLine("#id de la planification: ");
         System.out.println("Date possible pour les étudiants: " + getStudentDates(sophiaTechId));
         System.out.println("Date possible pour les entreprises: " + getCompanyDates(sophiaTechId));
@@ -130,6 +136,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
      * @param variables
      */
     private void fillLocation(Map<String, Object> variables) {
+        // Get the potential locations and ask for a final location
         String sophiaTechId = nextLine("#id de la planification: ");
         System.out.println("Date possible pour les étudiants: " + getPossibleLocations(sophiaTechId));
 
@@ -160,10 +167,13 @@ public class ScheduleSupervisorTask extends ProcessTask {
      */
     private void listTasks() {
         TaskService taskService = engine.getTaskService();
+        // List the different tasks and display them
         List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(SUPERVISOR_ID).list();
+        // If no task, happy face
         if (tasks.isEmpty()) {
             System.out.println("Vous avez rien à faire :D!");
         } else {
+            // Else, sad face we have some work to do. Display the tasks
             System.out.println("Voici les tâches que vous devez faire:");
             for (int i = 0; i < tasks.size(); i++) {
                 System.out.println((i+1) + ") " + tasks.get(i).getName() + " #" + tasks.get(i).getId());
@@ -176,8 +186,8 @@ public class ScheduleSupervisorTask extends ProcessTask {
      */
     private void createNewProcess() {
         RuntimeService runtimeService = engine.getRuntimeService();
-        Map<String, Object> variables = new HashMap<String, Object>();
-        ProcessInstance inst = runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY, variables);
+        // Create a new instance of the schedule process and display its id
+        ProcessInstance inst = runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY, new HashMap<>());
         System.out.println("Sophia-Tech forum (planification), #" + inst.getId() + " créé");
     }
 }
