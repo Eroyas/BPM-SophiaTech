@@ -44,6 +44,9 @@ public class Schedule {
                     case SUPERVISOR:
                         new ScheduleSupervisorTask(this.engine).run();
                         break;
+                    case LOCATION_MANAGER:
+                        new ScheduleLocationManagerTask(this.engine).run();
+                        break;
                     default:
                         // Default fallback -> We do not have this role implemented yet
                         System.err.println("Role " + role.get() + " non implémenté");
@@ -63,7 +66,7 @@ public class Schedule {
      * @param scanner
      */
     private Optional<Role> askRole(Scanner scanner) {
-        System.out.print("\nQui êtes vous (superviseur,stop) ? ");
+        System.out.print("\nQui êtes vous (superviseur,responsable lieu,stop) ? ");
         String message = scanner.nextLine();
         // If input is stop, return no role
         if (message.equals(STOP)) {

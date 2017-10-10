@@ -39,7 +39,7 @@
 		<sequenceFlow id="_event_get_company_availability" sourceRef="_parralel_0" targetRef="get_company_availability"/>
     <sequenceFlow id="_event_end_get_company_availability" sourceRef="get_company_availability" targetRef="parallel_1"/>
 
-    <userTask completionQuantity="1" id="get_possible_locations" implementation="##unspecified" isForCompensation="false" name="Sélectionner lieux" startQuantity="1" flowable:candidateGroups="todo">
+    <userTask completionQuantity="1" id="get_possible_locations" implementation="##unspecified" isForCompensation="false" name="Sélectionner lieux" startQuantity="1" flowable:candidateGroups="location_manager">
       <incoming>_event_get_possible_locations</incoming>
       <outgoing>_event_end_get_possible_locations</outgoing>
     </userTask>

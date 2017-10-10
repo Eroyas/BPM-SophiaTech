@@ -104,7 +104,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
      */
     private void fillDate(Map<String, Object> variables) {
         // Get the dates from the previous tasks and ask for a final date
-        String sophiaTechId = nextLine("#id de la planification: ");
+        String sophiaTechId = "TODO";//nextLine("#id de la planification: ");
         System.out.println("Date possible pour les étudiants: " + getStudentDates(sophiaTechId));
         System.out.println("Date possible pour les entreprises: " + getCompanyDates(sophiaTechId));
 
@@ -136,7 +136,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
      */
     private void fillLocation(Map<String, Object> variables) {
         // Get the potential locations and ask for a final location
-        String sophiaTechId = nextLine("#id de la planification: ");
+        String sophiaTechId = "TODO";//nextLine("#id de la planification: ");
         System.out.println("Date possible pour les étudiants: " + getPossibleLocations(sophiaTechId));
 
         String location = nextLine("Lieu du Sophia Tech Forum: ");

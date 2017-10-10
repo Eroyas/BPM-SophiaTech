@@ -4,7 +4,7 @@ package fr.unice.polytech.bpm;
  * A process user role
  */
 public enum Role {
-    SUPERVISOR("superviseur"), UNKNOWN("");
+    SUPERVISOR("superviseur"), LOCATION_MANAGER("responsable lieu"), UNKNOWN("");
 
     private String name;
 
