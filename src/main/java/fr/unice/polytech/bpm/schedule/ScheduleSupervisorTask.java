@@ -53,7 +53,6 @@ public class ScheduleSupervisorTask extends ProcessTask {
                 // Default fallback, no valid action given
                 System.err.println("Action invalide!");
                 break;
-
         }
     }
 

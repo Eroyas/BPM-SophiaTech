@@ -23,7 +23,7 @@ public abstract class ProcessTask {
     }
 
     /**
-     * Run the proccess task
+     * Run the process task
      */
     public abstract void run();
 
