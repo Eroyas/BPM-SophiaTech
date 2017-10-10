@@ -17,8 +17,8 @@ public class ScheduleSupervisorTask extends ProcessTask {
 
     private static final String PROCESS_DEFINITION_KEY = "schedule";
     private static final String SUPERVISOR_ID = "supervisor";
-    private static final String NEW = "nouveau";
-    private static final String LIST = "liste";
+    private static final String NEW = "creer";
+    private static final String LIST = "lister";
     private static final String EXECUTE = "executer";
     private static final String GET_COMPANY_AVAILABILITY = "Récupérer disponnibilités des entreprises";
     private static final String SELECT_LOCATION = "Choisir un lieu";
@@ -37,7 +37,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
      */
     @Override
     public void run() {
-        String action = nextLine("Que voulez vous faire (nouveau,liste,executer) ? ");
+        String action = nextLine(String.format("Que voulez vous faire (%s,%s,%s) ? ", NEW, LIST, EXECUTE));
         switch (action) {
             case NEW:
                 createNewProcess();
@@ -67,22 +67,31 @@ public class ScheduleSupervisorTask extends ProcessTask {
             // TODO: check that role can validate task
             System.out.println("Tâche invalide!");
         } else {
-            Map<String, Object> variables = new HashMap<String, Object>();
-            switch(task.getName()) {
-                case GET_COMPANY_AVAILABILITY:
-                    fillAvailabilityDetails(variables);
-                    break;
-                case SELECT_LOCATION:
-                    fillLocation(variables);
-                    break;
-                case SELECT_DATE:
-                    fillDate(variables);
-                    break;
-                default:
-                    System.err.println("Tâche avec aucune entrée!!");
-            }
-            taskService.complete(task.getId(), variables);
+            completeTask(task);
         }
+    }
+
+    /**
+     * Complete a task according to the user input
+     * @param task
+     */
+    private void completeTask(Task task) {
+        TaskService taskService = engine.getTaskService();
+        Map<String, Object> variables = new HashMap<String, Object>();
+        switch(task.getName()) {
+            case GET_COMPANY_AVAILABILITY:
+                fillAvailabilityDetails(variables);
+                break;
+            case SELECT_LOCATION:
+                fillLocation(variables);
+                break;
+            case SELECT_DATE:
+                fillDate(variables);
+                break;
+            default:
+                System.err.println("Tâche avec aucune entrée!!");
+        }
+        taskService.complete(task.getId(), variables);
     }
 
     /**
@@ -128,6 +137,11 @@ public class ScheduleSupervisorTask extends ProcessTask {
         variables.put("location", location);
     }
 
+    /**
+     * get possible locations
+     * @param sophiaTechId
+     * @return
+     */
     private String getPossibleLocations(String sophiaTechId) {
         return "Forums (TODO)";
     }

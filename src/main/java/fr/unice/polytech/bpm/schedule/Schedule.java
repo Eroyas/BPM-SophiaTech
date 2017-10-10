@@ -60,7 +60,7 @@ public class Schedule {
         System.out.print("\nQui êtes vous (superviseur,stop) ? ");
         String message = scanner.nextLine();
         if (message.equals(STOP)) {
-            System.out.println("Bye");
+            System.out.println("Au revoir");
             return Optional.empty();
         } else {
             Role role = Role.fromName(message);
