@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:flowable="http://flowable.org/bpmn"
+             typeLanguage="http://www.w3.org/2001/XMLSchema"
+             expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.flowable.org/processdef">
+  <process id="schedule" isClosed="false" isExecutable="true" processType="None">
+    <serviceTask flowable:class="fr.unice.polytech.bpm.delegates.GetStudentSchedule" completionQuantity="1" id="get_student_schedule" implementation="##WebService" isForCompensation="false" name="Récupérer planning des étudiants" startQuantity="1">
+      <incoming>_15</incoming>
+      <outgoing>_18</outgoing>
+    </serviceTask>
+    <userTask completionQuantity="1" id="get_company_availability" implementation="##unspecified" isForCompensation="false" name="Récupérer disponnibilités des entreprises" startQuantity="1"  flowable:candidateGroups="supervisor">
+      <incoming>_14</incoming>
+      <outgoing>_5</outgoing>
+    </userTask>
+    <userTask completionQuantity="1" id="select_location" implementation="##unspecified" isForCompensation="false" name="Choisir un lieu" startQuantity="1">
+      <incoming>_19</incoming>
+      <outgoing>_25</outgoing>
+    </userTask>
+    <parallelGateway gatewayDirection="Diverging" id="parallel_1" name="Parallel Gateway">
+      <incoming>_18</incoming>
+      <incoming>_5</incoming>
+      <outgoing>_19</outgoing>
+      <outgoing>_20</outgoing>
+    </parallelGateway>
+    <userTask completionQuantity="1" id="select_date" implementation="##unspecified" isForCompensation="false" name="Choisir une date" startQuantity="1">
+      <incoming>_20</incoming>
+      <outgoing>_24</outgoing>
+    </userTask>
+    <sequenceFlow id="_13" sourceRef="_2" targetRef="_4"/>
+    <startEvent id="_2" isInterrupting="true" name="Planifier" parallelMultiple="false">
+      <outgoing>_13</outgoing>
+      <outputSet/>
+    </startEvent>
+    <sequenceFlow id="_14" sourceRef="_4" targetRef="get_company_availability"/>
+    <sequenceFlow id="_15" sourceRef="_4" targetRef="get_student_schedule"/>
+    <parallelGateway gatewayDirection="Diverging" id="_4">
+      <incoming>_13</incoming>
+      <outgoing>_14</outgoing>
+      <outgoing>_15</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="_18" sourceRef="get_student_schedule" targetRef="parallel_1"/>
+    <sequenceFlow id="_19" sourceRef="parallel_1" targetRef="select_location"/>
+    <sequenceFlow id="_20" sourceRef="parallel_1" targetRef="select_date"/>
+    <sequenceFlow id="_24" sourceRef="select_date" targetRef="_23"/>
+    <endEvent id="_3" name="Fin planifier">
+      <incoming>_26</incoming>
+      <inputSet/>
+    </endEvent>
+    <sequenceFlow id="_25" sourceRef="select_location" targetRef="_23"/>
+    <sequenceFlow id="_26" sourceRef="_23" targetRef="_3"/>
+    <parallelGateway gatewayDirection="Converging" id="_23">
+      <incoming>_24</incoming>
+      <incoming>_25</incoming>
+      <outgoing>_26</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="_5" sourceRef="get_company_availability" targetRef="parallel_1"/>
+  </process>
+</definitions>
