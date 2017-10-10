@@ -21,6 +21,8 @@ public class ScheduleSupervisorTask extends ProcessTask {
     private static final String LIST = "liste";
     private static final String EXECUTE = "executer";
     private static final String GET_COMPANY_AVAILABILITY = "Récupérer disponnibilités des entreprises";
+    private static final String SELECT_LOCATION = "Choisir un lieu";
+    private static final String SELECT_DATE = "Choisir une date";
 
     /**
      * Instantiates a new supervisor task
@@ -70,11 +72,35 @@ public class ScheduleSupervisorTask extends ProcessTask {
                 case GET_COMPANY_AVAILABILITY:
                     fillAvailabilityDetails(variables);
                     break;
+                case SELECT_LOCATION:
+                    fillLocation(variables);
+                    break;
+                case SELECT_DATE:
+                    fillDate(variables);
+                    break;
                 default:
                     System.err.println("Tâche avec aucune entrée!!");
             }
             taskService.complete(task.getId(), variables);
         }
+    }
+
+    /**
+     * Fill in date
+     * @param variables
+     */
+    private void fillDate(Map<String, Object> variables) {
+        String location = nextLine("Date du Sophia Tech Forum: ");
+        variables.put("date", location);
+    }
+
+    /**
+     * Fill in the location
+     * @param variables
+     */
+    private void fillLocation(Map<String, Object> variables) {
+        String location = nextLine("Lieu du Sophia Tech Forum: ");
+        variables.put("location", location);
     }
 
     /**

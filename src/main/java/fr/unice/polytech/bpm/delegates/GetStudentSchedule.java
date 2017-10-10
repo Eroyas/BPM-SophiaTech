@@ -10,6 +10,8 @@ public class GetStudentSchedule implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
-        System.out.println("DONE");
+        System.out.println("Calcule de dates possibles pour les étudiants");
+        delegateExecution.setVariable("date", "Un jour X");
+        System.out.println("Le système a trouvé des dates possibles pour les étudiants");
     }
 }
