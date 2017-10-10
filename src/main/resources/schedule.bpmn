@@ -10,55 +10,79 @@
              expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="http://www.flowable.org/processdef">
   <process id="schedule" isClosed="false" isExecutable="true" processType="None">
-    <serviceTask flowable:class="fr.unice.polytech.bpm.delegates.GetStudentSchedule" completionQuantity="1" id="get_student_schedule" implementation="##WebService" isForCompensation="false" name="Récupérer planning des étudiants" startQuantity="1">
-      <incoming>_15</incoming>
-      <outgoing>_18</outgoing>
+		<!-- START -->
+		<startEvent id="_event_planifier" isInterrupting="true" name="Planifier" parallelMultiple="false">
+			<outgoing>_event_start</outgoing>
+			<outputSet/>
+		</startEvent>
+		<sequenceFlow id="_event_start" sourceRef="_event_planifier" targetRef="_parralel_0"/>
+		<parallelGateway gatewayDirection="Diverging" id="_parralel_0">
+      <incoming>_event_start</incoming>
+      <outgoing>_event_get_company_availability</outgoing>
+      <outgoing>_event_get_student_schedule</outgoing>
+      <outgoing>_event_get_possible_locations</outgoing>
+    </parallelGateway>
+		<!-- END START -->
+
+		<!-- PARALLEL 1 -->
+		<serviceTask flowable:class="fr.unice.polytech.bpm.delegates.GetStudentSchedule" completionQuantity="1" id="get_student_schedule" implementation="##WebService" isForCompensation="false" name="Récupérer planning des étudiants" startQuantity="1">
+      <incoming>_event_get_student_schedule</incoming>
+      <outgoing>_event_end_get_student_schedule</outgoing>
     </serviceTask>
-    <userTask completionQuantity="1" id="get_company_availability" implementation="##unspecified" isForCompensation="false" name="Récupérer disponnibilités des entreprises" startQuantity="1" flowable:candidateGroups="supervisor">
-      <incoming>_14</incoming>
-      <outgoing>_5</outgoing>
+    <sequenceFlow id="_event_get_student_schedule" sourceRef="_parralel_0" targetRef="get_student_schedule"/>
+    <sequenceFlow id="_event_end_get_student_schedule" sourceRef="get_student_schedule" targetRef="parallel_1"/>
+
+		<userTask completionQuantity="1" id="get_company_availability" implementation="##unspecified" isForCompensation="false" name="Récupérer disponnibilités des entreprises" startQuantity="1" flowable:candidateGroups="supervisor">
+      <incoming>_event_get_company_availability</incoming>
+      <outgoing>_event_end_get_company_availability</outgoing>
     </userTask>
-    <userTask completionQuantity="1" id="select_location" implementation="##unspecified" isForCompensation="false" name="Choisir un lieu" startQuantity="1" flowable:candidateGroups="supervisor">
-      <incoming>_19</incoming>
-      <outgoing>_25</outgoing>
+		<sequenceFlow id="_event_get_company_availability" sourceRef="_parralel_0" targetRef="get_company_availability"/>
+    <sequenceFlow id="_event_end_get_company_availability" sourceRef="get_company_availability" targetRef="parallel_1"/>
+
+    <userTask completionQuantity="1" id="get_possible_locations" implementation="##unspecified" isForCompensation="false" name="Récupérer disponnibilités des entreprises" startQuantity="1" flowable:candidateGroups="todo">
+      <incoming>_event_get_possible_locations</incoming>
+      <outgoing>_event_end_get_possible_locations</outgoing>
     </userTask>
-    <parallelGateway gatewayDirection="Diverging" id="parallel_1" name="Parallel Gateway">
-      <incoming>_18</incoming>
-      <incoming>_5</incoming>
-      <outgoing>_19</outgoing>
-      <outgoing>_20</outgoing>
+    <sequenceFlow id="_event_get_possible_locations" sourceRef="_parralel_0" targetRef="get_possible_locations"/>
+		    <sequenceFlow id="_event_end_get_possible_locations" sourceRef="get_possible_locations" targetRef="parallel_1"/>
+		<!-- END PARALLEL 1 -->
+
+		<!-- PARALLEL 2 -->
+		<parallelGateway gatewayDirection="Diverging" id="parallel_1" name="Parallel Gateway">
+      <incoming>_event_end_get_student_schedule</incoming>
+      <incoming>_event_end_get_company_availability</incoming>
+      <incoming>_event_end_get_possible_locations</incoming>
+      <outgoing>_event_select_location</outgoing>
+      <outgoing>_event_select_date</outgoing>
     </parallelGateway>
-    <userTask completionQuantity="1" id="select_date" implementation="##unspecified" isForCompensation="false" name="Choisir une date" startQuantity="1" flowable:candidateGroups="supervisor">
-      <incoming>_20</incoming>
-      <outgoing>_24</outgoing>
+
+		<userTask completionQuantity="1" id="select_location" implementation="##unspecified" isForCompensation="false" name="Choisir un lieu" startQuantity="1" flowable:candidateGroups="supervisor">
+      <incoming>_event_select_location</incoming>
+      <outgoing>_event_end_select_location</outgoing>
     </userTask>
-    <sequenceFlow id="_13" sourceRef="_2" targetRef="_4"/>
-    <startEvent id="_2" isInterrupting="true" name="Planifier" parallelMultiple="false">
-      <outgoing>_13</outgoing>
-      <outputSet/>
-    </startEvent>
-    <sequenceFlow id="_14" sourceRef="_4" targetRef="get_company_availability"/>
-    <sequenceFlow id="_15" sourceRef="_4" targetRef="get_student_schedule"/>
-    <parallelGateway gatewayDirection="Diverging" id="_4">
-      <incoming>_13</incoming>
-      <outgoing>_14</outgoing>
-      <outgoing>_15</outgoing>
-    </parallelGateway>
-    <sequenceFlow id="_18" sourceRef="get_student_schedule" targetRef="parallel_1"/>
-    <sequenceFlow id="_19" sourceRef="parallel_1" targetRef="select_location"/>
-    <sequenceFlow id="_20" sourceRef="parallel_1" targetRef="select_date"/>
-    <sequenceFlow id="_24" sourceRef="select_date" targetRef="_23"/>
-    <endEvent id="_3" name="Fin planifier">
-      <incoming>_26</incoming>
+		<sequenceFlow id="_event_select_location" sourceRef="parallel_1" targetRef="select_location"/>
+    <sequenceFlow id="_event_end_select_location" sourceRef="select_location" targetRef="_event_end_parralel_1"/>
+
+		<userTask completionQuantity="1" id="select_date" implementation="##unspecified" isForCompensation="false" name="Choisir une date" startQuantity="1" flowable:candidateGroups="supervisor">
+      <incoming>_event_select_date</incoming>
+      <outgoing>_event_end_select_date</outgoing>
+    </userTask>
+		<sequenceFlow id="_event_select_date" sourceRef="parallel_1" targetRef="select_date"/>
+    <sequenceFlow id="_event_end_select_date" sourceRef="select_date" targetRef="_event_end_parralel_1"/>
+
+    <sequenceFlow id="_event_the_end" sourceRef="_event_end_parralel_1" targetRef="_end"/>
+		<!-- END PARALLEL 2 -->
+
+		<!-- AND THE END -->
+		<parallelGateway gatewayDirection="Converging" id="_event_end_parralel_1">
+			<incoming>_event_end_select_date</incoming>
+			<incoming>_event_end_select_location</incoming>
+			<outgoing>_event_the_end</outgoing>
+		</parallelGateway>
+		<endEvent id="_end" name="Fin planifier">
+      <incoming>_event_the_end</incoming>
       <inputSet/>
     </endEvent>
-    <sequenceFlow id="_25" sourceRef="select_location" targetRef="_23"/>
-    <sequenceFlow id="_26" sourceRef="_23" targetRef="_3"/>
-    <parallelGateway gatewayDirection="Converging" id="_23">
-      <incoming>_24</incoming>
-      <incoming>_25</incoming>
-      <outgoing>_26</outgoing>
-    </parallelGateway>
-    <sequenceFlow id="_5" sourceRef="get_company_availability" targetRef="parallel_1"/>
+		<!-- END AND THE END -->
   </process>
 </definitions>
