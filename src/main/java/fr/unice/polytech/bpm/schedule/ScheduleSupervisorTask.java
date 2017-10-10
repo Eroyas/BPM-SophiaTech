@@ -2,9 +2,12 @@ package fr.unice.polytech.bpm.schedule;
 
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.engine.task.Task;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,12 +39,28 @@ public class ScheduleSupervisorTask extends ProcessTask {
                 createNewProcess();
                 break;
             case LIST:
-                System.out.println("TODO");
+                listTasks();
                 break;
             default:
                 System.err.println("Action invalide!");
                 break;
 
+        }
+    }
+
+    /**
+     * List all the current asks
+     */
+    private void listTasks() {
+        TaskService taskService = engine.getTaskService();
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(SUPERVISOR_ID).list();
+        if (tasks.isEmpty()) {
+            System.out.println("Vous avez rien à faire :D!");
+        } else {
+            System.out.println("Voici les tâches que vous devez faire:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i+1) + ") " + tasks.get(i).getName() + " #" + tasks.get(i).getProcessInstanceId());
+            }
         }
     }
 
