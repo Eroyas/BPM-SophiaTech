@@ -10,6 +10,6 @@ public class GetStudentSchedule implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
-       // System
+        System.out.println("DONE");
     }
 }

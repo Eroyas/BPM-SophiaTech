@@ -14,11 +14,11 @@
       <incoming>_15</incoming>
       <outgoing>_18</outgoing>
     </serviceTask>
-    <userTask completionQuantity="1" id="get_company_availability" implementation="##unspecified" isForCompensation="false" name="Récupérer disponnibilités des entreprises" startQuantity="1"  flowable:candidateGroups="supervisor">
+    <userTask completionQuantity="1" id="get_company_availability" implementation="##unspecified" isForCompensation="false" name="Récupérer disponnibilités des entreprises" startQuantity="1" flowable:candidateGroups="supervisor">
       <incoming>_14</incoming>
       <outgoing>_5</outgoing>
     </userTask>
-    <userTask completionQuantity="1" id="select_location" implementation="##unspecified" isForCompensation="false" name="Choisir un lieu" startQuantity="1">
+    <userTask completionQuantity="1" id="select_location" implementation="##unspecified" isForCompensation="false" name="Choisir un lieu" startQuantity="1" flowable:candidateGroups="supervisor">
       <incoming>_19</incoming>
       <outgoing>_25</outgoing>
     </userTask>
@@ -28,7 +28,7 @@
       <outgoing>_19</outgoing>
       <outgoing>_20</outgoing>
     </parallelGateway>
-    <userTask completionQuantity="1" id="select_date" implementation="##unspecified" isForCompensation="false" name="Choisir une date" startQuantity="1">
+    <userTask completionQuantity="1" id="select_date" implementation="##unspecified" isForCompensation="false" name="Choisir une date" startQuantity="1" flowable:candidateGroups="supervisor">
       <incoming>_20</incoming>
       <outgoing>_24</outgoing>
     </userTask>

@@ -19,6 +19,8 @@ public class ScheduleSupervisorTask extends ProcessTask {
     private static final String SUPERVISOR_ID = "supervisor";
     private static final String NEW = "nouveau";
     private static final String LIST = "liste";
+    private static final String EXECUTE = "executer";
+    private static final String GET_COMPANY_AVAILABILITY = "Récupérer disponnibilités des entreprises";
 
     /**
      * Instantiates a new supervisor task
@@ -33,7 +35,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
      */
     @Override
     public void run() {
-        String action = nextLine("Que voulez vous faire (nouveau,liste) ? ");
+        String action = nextLine("Que voulez vous faire (nouveau,liste,executer) ? ");
         switch (action) {
             case NEW:
                 createNewProcess();
@@ -41,11 +43,47 @@ public class ScheduleSupervisorTask extends ProcessTask {
             case LIST:
                 listTasks();
                 break;
+            case EXECUTE:
+                executeTask();
+                break;
             default:
                 System.err.println("Action invalide!");
                 break;
 
         }
+    }
+
+    /**
+     * Execute a task
+     */
+    private void executeTask() {
+        String taskId = nextLine("Quelle tache #? ");
+        TaskService taskService = engine.getTaskService();
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+        if (task == null) {
+            // TODO: check that role can validate task
+            System.out.println("Tâche invalide!");
+        } else {
+            Map<String, Object> variables = new HashMap<String, Object>();
+            switch(task.getName()) {
+                case GET_COMPANY_AVAILABILITY:
+                    fillAvailabilityDetails(variables);
+                    break;
+                default:
+                    System.err.println("Tâche avec aucune entrée!!");
+            }
+            taskService.complete(task.getId(), variables);
+        }
+    }
+
+    /**
+     * Fill in the company availability details
+     * @param variables
+     */
+    private void fillAvailabilityDetails(Map<String, Object> variables) {
+        String details = nextLine("Entrez les disponnibilités: ");
+        variables.put("availability", details);
     }
 
     /**
@@ -59,7 +97,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
         } else {
             System.out.println("Voici les tâches que vous devez faire:");
             for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i+1) + ") " + tasks.get(i).getName() + " #" + tasks.get(i).getProcessInstanceId());
+                System.out.println((i+1) + ") " + tasks.get(i).getName() + " #" + tasks.get(i).getId());
             }
         }
     }

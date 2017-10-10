@@ -57,7 +57,7 @@ public class Schedule {
      * @param scanner
      */
     private Optional<Role> askRole(Scanner scanner) {
-        System.out.print("Qui êtes vous (superviseur,stop) ? ");
+        System.out.print("\nQui êtes vous (superviseur,stop) ? ");
         String message = scanner.nextLine();
         if (message.equals(STOP)) {
             System.out.println("Bye");
