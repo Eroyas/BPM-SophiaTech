@@ -44,7 +44,7 @@ public class Schedule {
                     case SUPERVISOR:
                         new ScheduleSupervisorTask(this.engine).run();
                         break;
-                    case LOCATION_MANAGER:
+                    case ORGANIZER:
                         new ScheduleLocationManagerTask(this.engine).run();
                         break;
                     default:
@@ -66,7 +66,7 @@ public class Schedule {
      * @param scanner
      */
     private Optional<Role> askRole(Scanner scanner) {
-        System.out.print("\nQui êtes vous (superviseur,responsable lieu,stop) ? ");
+        System.out.print("\nQui êtes vous (superviseur,organisateur,stop) ? ");
         String message = scanner.nextLine();
         // If input is stop, return no role
         if (message.equals(STOP)) {

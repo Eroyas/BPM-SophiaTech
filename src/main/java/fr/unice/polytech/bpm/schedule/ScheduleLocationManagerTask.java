@@ -1,9 +1,7 @@
 package fr.unice.polytech.bpm.schedule;
 
 import org.flowable.engine.ProcessEngine;
-import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.task.Task;
 
 import java.util.HashMap;
@@ -16,7 +14,7 @@ import java.util.Map;
 public class ScheduleLocationManagerTask extends ProcessTask {
 
     private static final String PROCESS_DEFINITION_KEY = "schedule";
-    private static final String SUPERVISOR_ID = "location_manager";
+    private static final String ORGANIZER_ID = "organizer";
     private static final String LIST = "lister";
     private static final String EXECUTE = "executer";
     private static final String SELECT_LOCATIONS = "Sélectionner lieux";
@@ -102,7 +100,7 @@ public class ScheduleLocationManagerTask extends ProcessTask {
     private void listTasks() {
         TaskService taskService = engine.getTaskService();
         // List the different tasks and display them
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(SUPERVISOR_ID).list();
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(ORGANIZER_ID).list();
         // If no task, happy face
         if (tasks.isEmpty()) {
             System.out.println("Vous avez rien à faire :D!");
