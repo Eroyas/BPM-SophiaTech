@@ -10,7 +10,6 @@ import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.flowable.engine.runtime.ProcessInstance;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -41,6 +40,7 @@ public class ProcessIntegration {
                 ExecutionEntityImpl e = (ExecutionEntityImpl) event.getEntity();
 
                 if (isSameProcess(from, e)) {
+                    // Launch all the different process
                     for (String toLaunch : toArray) {
                         triggerProcess(toLaunch);
                     }
@@ -91,6 +91,7 @@ public class ProcessIntegration {
                 if (isSameProcess(from, e)) {
                     synchronized (ProcessIntegration.this) {
                         queue.add(1);
+                        // Launch the different process if we all the process have been completed
                         if (queue.size() == size) {
                             System.out.println("We waited for all the sub-processes. Continuing the flow");
                             for (String toLaunch : to) {

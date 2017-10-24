@@ -6,9 +6,7 @@ import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.task.Task;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SupervisorListTasksCommand extends PromptCommand {
 

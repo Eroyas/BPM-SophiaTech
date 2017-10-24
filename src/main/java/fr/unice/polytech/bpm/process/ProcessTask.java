@@ -7,7 +7,6 @@ import fr.unice.polytech.bpm.process.commands.PromptCommand;
 import org.flowable.engine.ProcessEngine;
 
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * A process task

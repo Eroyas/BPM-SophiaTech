@@ -4,12 +4,6 @@ import fr.unice.polytech.bpm.Role;
 import fr.unice.polytech.bpm.process.ProcessTask;
 import fr.unice.polytech.bpm.process.commands.CommandRegistry;
 import org.flowable.engine.ProcessEngine;
-import org.flowable.engine.TaskService;
-import org.flowable.engine.task.Task;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * SupervisorTask task

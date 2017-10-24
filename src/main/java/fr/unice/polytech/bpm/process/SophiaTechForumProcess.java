@@ -6,13 +6,6 @@ import fr.unice.polytech.bpm.process.commands.CommandRegistry;
 import fr.unice.polytech.bpm.process.tasks.OrganizerTask;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.ProcessEngines;
-import org.flowable.engine.common.api.delegate.event.FlowableEvent;
-import org.flowable.engine.common.api.delegate.event.FlowableEventListener;
-import org.flowable.engine.common.api.delegate.event.FlowableEventType;
-import org.flowable.engine.delegate.event.FlowableEngineEventType;
-import org.flowable.engine.delegate.event.FlowableProcessStartedEvent;
-import org.flowable.engine.delegate.event.FlowableProcessTerminatedEvent;
-import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
@@ -63,6 +56,9 @@ public class SophiaTechForumProcess implements Process {
         this.integrateSubProcess();
     }
 
+    /**
+     * Integrate our different process
+     */
     private void integrateSubProcess() {
         ProcessIntegration integration = new ProcessIntegration(engine);
         integration.addSimpleTrigger("form-team", "schedule", "chose-companies");
@@ -72,6 +68,9 @@ public class SophiaTechForumProcess implements Process {
         integration.addSimpleTrigger("achieve", "feedback");
     }
 
+    /**
+     * Register our different tasks
+     */
     private void registerTaskForRoles() {
         Reflections reflections = new Reflections(
                 ClasspathHelper.forClass(OrganizerTask.class),

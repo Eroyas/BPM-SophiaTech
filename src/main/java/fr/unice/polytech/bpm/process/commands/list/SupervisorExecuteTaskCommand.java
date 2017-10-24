@@ -1,14 +1,12 @@
 package fr.unice.polytech.bpm.process.commands.list;
 
 import fr.unice.polytech.bpm.Role;
-import fr.unice.polytech.bpm.process.commands.Command;
 import fr.unice.polytech.bpm.process.commands.PromptCommand;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.task.Task;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SupervisorExecuteTaskCommand extends PromptCommand {

@@ -4,12 +4,9 @@ import fr.unice.polytech.bpm.Role;
 import fr.unice.polytech.bpm.process.commands.Command;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.RuntimeService;
-import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.ProcessInstance;
-import org.flowable.engine.task.Task;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class SupervisorNewForumCommand implements Command {
 
