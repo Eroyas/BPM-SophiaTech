@@ -13,14 +13,14 @@ import java.util.List;
 
 public class SupervisorNewForumCommand implements Command {
 
-    private static final String PROCESS_DEFINITION_KEY = "schedule";
+    private static final String PROCESS_DEFINITION_KEY = "form-team";
 
     @Override
     public void execute(ProcessEngine context) {
         RuntimeService runtimeService = context.getRuntimeService();
         // Create a new instance of the schedule process and display its id
+        System.out.println("Création du sous process " + PROCESS_DEFINITION_KEY);
         ProcessInstance inst = runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY, new HashMap<>());
-        System.out.println("Sophia-Tech forum (planification), #" + inst.getId() + " créé");
     }
 
     @Override

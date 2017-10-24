@@ -1,61 +1,61 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.flowable.org/processdef" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:yaoqiang="http://bpmn.sourceforge.net" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.3.Final-v20170221-1647-B60" expressionLanguage="http://www.w3.org/1999/XPath" id="Definitions_1" name="" targetNamespace="http://www.flowable.org/processdef" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd">
-  <process id="schedule" isClosed="false" isExecutable="true" processType="None">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- origin at X=0.0 Y=0.0 -->
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.flowable.org/processdef" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:yaoqiang="http://bpmn.sourceforge.net" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd http://www.omg.org/spec/BPMN/20100524/DI http://www.omg.org/spec/BPMN/20100524/DI-XMI http://www.omg.org/spec/DD/20100524/DC http://www.omg.org/spec/DD/20100524/DC-XMI http://www.omg.org/spec/DD/20100524/DI http://www.omg.org/spec/DD/20100524/DI-XMI" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.3.Final-v20170221-1647-B60" name="" targetNamespace="http://www.flowable.org/processdef">
+  <process id="schedule" isExecutable="true">
     <extensionElements>
-      <yaoqiang:description/>
-      <yaoqiang:pageFormat height="841.8897637795276" imageableHeight="831.8897637795276" imageableWidth="588.1102362204724" imageableX="5.0" imageableY="5.0" orientation="0" width="598.1102362204724"/>
-      <yaoqiang:page background="#FFFFFF" horizontalCount="1" verticalCount="1"/>
+      <yaoqiang:description xsi:type="xsd:anyType"/>
+      <yaoqiang:pageFormat xsi:type="xsd:anyType" height="841.8897637795276" imageableHeight="831.8897637795276" imageableWidth="588.1102362204724" imageableX="5.0" imageableY="5.0" orientation="0" width="598.1102362204724"/>
+      <yaoqiang:page xsi:type="xsd:anyType" background="#FFFFFF" horizontalCount="1" verticalCount="1"/>
     </extensionElements>
-    <startEvent id="_event_planifier" isInterrupting="true" name="Planifier" parallelMultiple="false">
+    <startEvent id="_event_planifier" name="Planifier">
       <outgoing>_event_start</outgoing>
       <outputSet id="OutputSet_1"/>
     </startEvent>
     <sequenceFlow id="_event_start" sourceRef="_event_planifier" targetRef="_parralel_0"/>
-    <parallelGateway gatewayDirection="Diverging" id="_parralel_0">
+    <parallelGateway id="_parralel_0" gatewayDirection="Diverging">
       <incoming>_event_start</incoming>
       <outgoing>_event_get_company_availability</outgoing>
       <outgoing>_event_get_student_schedule</outgoing>
       <outgoing>_event_get_possible_locations</outgoing>
     </parallelGateway>
-    <serviceTask completionQuantity="1" flowable:class="fr.unice.polytech.bpm.delegates.GetStudentSchedule" id="get_student_schedule" implementation="##WebService" isForCompensation="false" name="Récupérer planning des étudiants" startQuantity="1">
+    <serviceTask id="get_student_schedule" flowable:class="fr.unice.polytech.bpm.delegates.GetStudentSchedule" name="Récupérer planning des étudiants" implementation="##WebService">
       <incoming>_event_get_student_schedule</incoming>
       <outgoing>_event_end_get_student_schedule</outgoing>
     </serviceTask>
     <sequenceFlow id="_event_get_student_schedule" sourceRef="_parralel_0" targetRef="get_student_schedule"/>
     <sequenceFlow id="_event_end_get_student_schedule" sourceRef="get_student_schedule" targetRef="parallel_1"/>
-    <userTask completionQuantity="1" flowable:candidateGroups="supervisor" id="get_company_availability" implementation="##unspecified" isForCompensation="false" name="Récupérer disponnibilités des entreprises" startQuantity="1">
+    <userTask id="get_company_availability" flowable:candidateGroups="supervisor" name="Récupérer disponnibilités des entreprises" implementation="##unspecified">
       <incoming>_event_get_company_availability</incoming>
       <outgoing>_event_end_get_company_availability</outgoing>
     </userTask>
     <sequenceFlow id="_event_get_company_availability" sourceRef="_parralel_0" targetRef="get_company_availability"/>
     <sequenceFlow id="_event_end_get_company_availability" sourceRef="get_company_availability" targetRef="parallel_1"/>
-    <userTask completionQuantity="1" flowable:candidateGroups="organizer" id="get_possible_locations" implementation="##unspecified" isForCompensation="false" name="Sélectionner lieux" startQuantity="1">
+    <userTask id="get_possible_locations" flowable:candidateGroups="organizer" name="Sélectionner lieux" implementation="##unspecified">
       <incoming>_event_get_possible_locations</incoming>
       <outgoing>_event_end_get_possible_locations</outgoing>
     </userTask>
     <sequenceFlow id="_event_get_possible_locations" sourceRef="_parralel_0" targetRef="get_possible_locations"/>
     <sequenceFlow id="_event_end_get_possible_locations" sourceRef="get_possible_locations" targetRef="parallel_1"/>
-    <parallelGateway gatewayDirection="Diverging" id="parallel_1" name="Parallel Gateway">
+    <parallelGateway id="parallel_1" name="Parallel Gateway" gatewayDirection="Converging">
       <incoming>_event_end_get_student_schedule</incoming>
       <incoming>_event_end_get_company_availability</incoming>
       <incoming>_event_end_get_possible_locations</incoming>
-      <outgoing>_event_select_location</outgoing>
-      <outgoing>_event_select_date</outgoing>
+      <outgoing>SequenceFlow_2</outgoing>
     </parallelGateway>
-    <userTask completionQuantity="1" flowable:candidateGroups="supervisor" id="select_location" implementation="##unspecified" isForCompensation="false" name="Choisir un lieu" startQuantity="1">
+    <userTask id="select_location" flowable:candidateGroups="supervisor" name="Choisir un lieu" implementation="##unspecified">
       <incoming>_event_select_location</incoming>
       <outgoing>_event_end_select_location</outgoing>
     </userTask>
-    <sequenceFlow id="_event_select_location" sourceRef="parallel_1" targetRef="select_location"/>
+    <sequenceFlow id="_event_select_location" sourceRef="ParallelGateway_1" targetRef="select_location"/>
     <sequenceFlow id="_event_end_select_location" sourceRef="select_location" targetRef="_event_end_parralel_1"/>
-    <userTask completionQuantity="1" flowable:candidateGroups="supervisor" id="select_date" implementation="##unspecified" isForCompensation="false" name="Choisir une date" startQuantity="1">
+    <userTask id="select_date" flowable:candidateGroups="supervisor" name="Choisir une date" implementation="##unspecified">
       <incoming>_event_select_date</incoming>
       <outgoing>_event_end_select_date</outgoing>
     </userTask>
-    <sequenceFlow id="_event_select_date" sourceRef="parallel_1" targetRef="select_date"/>
+    <sequenceFlow id="_event_select_date" sourceRef="ParallelGateway_1" targetRef="select_date"/>
     <sequenceFlow id="_event_end_select_date" sourceRef="select_date" targetRef="_event_end_parralel_1"/>
     <sequenceFlow id="_event_the_end" sourceRef="_event_end_parralel_1" targetRef="_end"/>
-    <parallelGateway gatewayDirection="Converging" id="_event_end_parralel_1">
+    <parallelGateway id="_event_end_parralel_1" gatewayDirection="Converging">
       <incoming>_event_end_select_location</incoming>
       <incoming>_event_end_select_date</incoming>
       <outgoing>_event_the_end</outgoing>
@@ -64,168 +64,186 @@
       <incoming>_event_the_end</incoming>
       <inputSet id="InputSet_1"/>
     </endEvent>
+    <parallelGateway id="ParallelGateway_1" name="Parallel Gateway" gatewayDirection="Diverging">
+      <incoming>SequenceFlow_2</incoming>
+      <outgoing>_event_select_location</outgoing>
+      <outgoing>_event_select_date</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="SequenceFlow_2" sourceRef="parallel_1" targetRef="ParallelGateway_1"/>
   </process>
   <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-schedule" name="Untitled Diagram" resolution="96.0">
-    <bpmndi:BPMNPlane bpmnElement="schedule">
-      <bpmndi:BPMNShape bpmnElement="_event_planifier" id="Yaoqiang-_event_planifier">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="schedule">
+      <bpmndi:BPMNShape id="Yaoqiang-_event_planifier" bpmnElement="_event_planifier">
         <omgdc:Bounds height="32.0" width="32.0" x="50.0" y="232.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="49.0" x="43.0" y="268.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_1" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="18.0" width="49.0" x="43.0" y="268.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_parralel_0" id="Yaoqiang-_parralel_0">
+      <bpmndi:BPMNShape id="Yaoqiang-_parralel_0" bpmnElement="_parralel_0" isMarkerVisible="true">
         <omgdc:Bounds height="42.0" width="42.0" x="136.0" y="225.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="154.0" y="269.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="18.0" width="6.0" x="154.0" y="269.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="get_student_schedule" id="Yaoqiang-get_student_schedule">
+      <bpmndi:BPMNShape id="Yaoqiang-get_student_schedule" bpmnElement="get_student_schedule">
         <omgdc:Bounds height="55.0" width="110.0" x="236.0" y="225.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="46.96" width="75.0" x="253.5" y="231.02"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_3" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="22.0" width="102.0" x="240.0" y="241.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="get_company_availability" id="Yaoqiang-get_company_availability">
+      <bpmndi:BPMNShape id="Yaoqiang-get_company_availability" bpmnElement="get_company_availability">
         <omgdc:Bounds height="55.0" width="110.0" x="236.0" y="125.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="46.96" width="89.0" x="246.5" y="131.02"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_4" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="22.0" width="107.0" x="237.0" y="141.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="get_possible_locations" id="Yaoqiang-get_possible_locations">
+      <bpmndi:BPMNShape id="Yaoqiang-get_possible_locations" bpmnElement="get_possible_locations">
         <omgdc:Bounds height="55.0" width="110.0" x="236.0" y="325.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="32.96" width="72.0" x="255.0" y="338.02"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_5" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="11.0" width="73.0" x="254.0" y="347.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallel_1" id="Yaoqiang-parallel_1">
+      <bpmndi:BPMNShape id="Yaoqiang-parallel_1" bpmnElement="parallel_1" isMarkerVisible="true">
         <omgdc:Bounds height="42.0" width="42.0" x="396.0" y="225.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="91.0" x="376.0" y="275.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_6" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="18.0" width="91.0" x="376.0" y="275.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="select_location" id="Yaoqiang-select_location">
+      <bpmndi:BPMNShape id="Yaoqiang-select_location" bpmnElement="select_location">
         <omgdc:Bounds height="55.0" width="110.0" x="496.0" y="175.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="84.0" x="509.0" y="195.02"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_7" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="18.0" width="84.0" x="509.0" y="195.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="select_date" id="Yaoqiang-select_date">
+      <bpmndi:BPMNShape id="Yaoqiang-select_date" bpmnElement="select_date">
         <omgdc:Bounds height="55.0" width="110.0" x="496.0" y="275.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="94.0" x="504.0" y="295.02"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_8" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="18.0" width="94.0" x="504.0" y="295.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_event_end_parralel_1" id="Yaoqiang-_event_end_parralel_1">
+      <bpmndi:BPMNShape id="Yaoqiang-_event_end_parralel_1" bpmnElement="_event_end_parralel_1" isMarkerVisible="true">
         <omgdc:Bounds height="42.0" width="42.0" x="656.0" y="225.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="674.0" y="269.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_9" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="18.0" width="6.0" x="674.0" y="269.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_end" id="Yaoqiang-_end">
+      <bpmndi:BPMNShape id="Yaoqiang-_end" bpmnElement="_end">
         <omgdc:Bounds height="32.0" width="32.0" x="756.0" y="232.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="69.0" x="740.0" y="268.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_10" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="18.0" width="69.0" x="740.0" y="268.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_event_end_select_location" id="Yaoqiang-_event_end_select_location">
-        <omgdi:waypoint x="606.0" y="200.0"/>
-        <omgdi:waypoint x="681.0" y="200.0"/>
-        <omgdi:waypoint x="681.0" y="229.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="655.0" y="190.52"/>
+      <bpmndi:BPMNShape id="BPMNShape_ParallelGateway_1" bpmnElement="ParallelGateway_1" isMarkerVisible="true">
+        <omgdc:Bounds height="42.0" width="42.0" x="450.0" y="338.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_23" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="11.0" width="69.0" x="437.0" y="380.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_end_select_location" bpmnElement="_event_end_select_location" sourceElement="Yaoqiang-select_location" targetElement="Yaoqiang-_event_end_parralel_1">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="606.0" y="200.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="681.0" y="200.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="681.0" y="229.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_11">
+          <omgdc:Bounds height="18.0" width="6.0" x="655.0" y="190.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_select_date" id="Yaoqiang-_event_select_date">
-        <omgdi:waypoint x="434.0" y="250.0"/>
-        <omgdi:waypoint x="616.0" y="250.0"/>
-        <omgdi:waypoint x="616.0" y="291.0"/>
-        <omgdi:waypoint x="606.0" y="302.5"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="553.25" y="240.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_select_date" bpmnElement="_event_select_date" sourceElement="BPMNShape_ParallelGateway_1" targetElement="Yaoqiang-select_date">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="492.0" y="359.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="551.0" y="359.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="551.0" y="330.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_12"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_end_select_date" bpmnElement="_event_end_select_date" sourceElement="Yaoqiang-select_date" targetElement="Yaoqiang-_event_end_parralel_1">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="606.0" y="308.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="681.0" y="308.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="681.0" y="263.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_13">
+          <omgdc:Bounds height="18.0" width="6.0" x="663.0" y="298.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_end_select_date" id="Yaoqiang-_event_end_select_date">
-        <omgdi:waypoint x="606.0" y="308.0"/>
-        <omgdi:waypoint x="681.0" y="308.0"/>
-        <omgdi:waypoint x="681.0" y="263.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="663.0" y="298.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_start" bpmnElement="_event_start" sourceElement="Yaoqiang-_event_planifier" targetElement="Yaoqiang-_parralel_0">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="81.874504" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="111.0" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="140.0" y="250.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_14">
+          <omgdc:Bounds height="18.0" width="6.0" x="107.0" y="240.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_start" id="Yaoqiang-_event_start">
-        <omgdi:waypoint x="81.87450786638755" y="250.0"/>
-        <omgdi:waypoint x="111.0" y="250.0"/>
-        <omgdi:waypoint x="140.0" y="250.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="107.94" y="240.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_end_get_possible_locations" bpmnElement="_event_end_get_possible_locations" sourceElement="Yaoqiang-get_possible_locations" targetElement="Yaoqiang-parallel_1">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="346.0" y="350.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="421.0" y="350.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="421.0" y="263.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_15">
+          <omgdc:Bounds height="18.0" width="6.0" x="418.0" y="334.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_end_get_possible_locations" id="Yaoqiang-_event_end_get_possible_locations">
-        <omgdi:waypoint x="346.0" y="350.0"/>
-        <omgdi:waypoint x="421.0" y="350.0"/>
-        <omgdi:waypoint x="421.0" y="263.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="418.0" y="334.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_select_location" bpmnElement="_event_select_location" sourceElement="BPMNShape_ParallelGateway_1" targetElement="Yaoqiang-select_location">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="471.0" y="338.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="471.0" y="257.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="551.0" y="257.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="551.0" y="230.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_16"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_get_student_schedule" bpmnElement="_event_get_student_schedule" sourceElement="Yaoqiang-_parralel_0" targetElement="Yaoqiang-get_student_schedule">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="174.0" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="211.0" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="236.0" y="250.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_17">
+          <omgdc:Bounds height="18.0" width="6.0" x="202.0" y="240.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_select_location" id="Yaoqiang-_event_select_location">
-        <omgdi:waypoint x="434.0" y="250.0"/>
-        <omgdi:waypoint x="551.0" y="250.0"/>
-        <omgdi:waypoint x="551.0" y="230.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="499.5" y="240.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_end_get_student_schedule" bpmnElement="_event_end_get_student_schedule" sourceElement="Yaoqiang-get_student_schedule" targetElement="Yaoqiang-parallel_1">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="346.0" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="386.0" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="386.0" y="285.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="421.0" y="285.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="400.0" y="250.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_18">
+          <omgdc:Bounds height="18.0" width="6.0" x="370.0" y="240.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_get_student_schedule" id="Yaoqiang-_event_get_student_schedule">
-        <omgdi:waypoint x="174.0" y="250.0"/>
-        <omgdi:waypoint x="211.0" y="250.0"/>
-        <omgdi:waypoint x="236.0" y="250.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="202.0" y="240.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_get_possible_locations" bpmnElement="_event_get_possible_locations" sourceElement="Yaoqiang-_parralel_0" targetElement="Yaoqiang-get_possible_locations">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="161.0" y="263.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="161.0" y="350.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="236.0" y="350.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_19">
+          <omgdc:Bounds height="18.0" width="6.0" x="158.0" y="334.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_end_get_student_schedule" id="Yaoqiang-_event_end_get_student_schedule">
-        <omgdi:waypoint x="346.0" y="250.0"/>
-        <omgdi:waypoint x="386.0" y="250.0"/>
-        <omgdi:waypoint x="386.0" y="285.0"/>
-        <omgdi:waypoint x="421.0" y="285.0"/>
-        <omgdi:waypoint x="400.0" y="250.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="370.0" y="240.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_end_get_company_availability" bpmnElement="_event_end_get_company_availability" sourceElement="Yaoqiang-get_company_availability" targetElement="Yaoqiang-parallel_1">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="346.0" y="150.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="421.0" y="150.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="421.0" y="229.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_20">
+          <omgdc:Bounds height="18.0" width="6.0" x="418.0" y="142.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_get_possible_locations" id="Yaoqiang-_event_get_possible_locations">
-        <omgdi:waypoint x="161.0" y="263.0"/>
-        <omgdi:waypoint x="161.0" y="350.0"/>
-        <omgdi:waypoint x="236.0" y="350.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="158.0" y="334.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_the_end" bpmnElement="_event_the_end" sourceElement="Yaoqiang-_event_end_parralel_1" targetElement="Yaoqiang-_end">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="694.0" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="731.0" y="250.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="756.1255" y="250.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_21">
+          <omgdc:Bounds height="18.0" width="6.0" x="722.0" y="240.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_end_get_company_availability" id="Yaoqiang-_event_end_get_company_availability">
-        <omgdi:waypoint x="346.0" y="150.0"/>
-        <omgdi:waypoint x="421.0" y="150.0"/>
-        <omgdi:waypoint x="421.0" y="229.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="418.0" y="142.52"/>
+      <bpmndi:BPMNEdge id="Yaoqiang-_event_get_company_availability" bpmnElement="_event_get_company_availability" sourceElement="Yaoqiang-_parralel_0" targetElement="Yaoqiang-get_company_availability">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="161.0" y="229.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="161.0" y="150.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="236.0" y="150.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_22">
+          <omgdc:Bounds height="18.0" width="6.0" x="158.0" y="142.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_the_end" id="Yaoqiang-_event_the_end">
-        <omgdi:waypoint x="694.0" y="250.0"/>
-        <omgdi:waypoint x="731.0" y="250.0"/>
-        <omgdi:waypoint x="756.1254921336125" y="250.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="722.06" y="240.52"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_event_get_company_availability" id="Yaoqiang-_event_get_company_availability">
-        <omgdi:waypoint x="161.0" y="229.0"/>
-        <omgdi:waypoint x="161.0" y="150.0"/>
-        <omgdi:waypoint x="236.0" y="150.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="158.0" y="142.52"/>
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="Yaoqiang-parallel_1" targetElement="BPMNShape_ParallelGateway_1">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="438.0" y="246.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="444.0" y="246.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="444.0" y="359.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="450.0" y="359.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_24"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">
+      <omgdc:Font name="arial" size="9.0"/>
+    </bpmndi:BPMNLabelStyle>
   </bpmndi:BPMNDiagram>
 </definitions>
