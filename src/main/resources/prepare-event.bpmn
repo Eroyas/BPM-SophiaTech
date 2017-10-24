@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.flowable.org/processdef" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:yaoqiang="http://bpmn.sourceforge.net" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.3.Final-v20170221-1647-B60" expressionLanguage="http://www.w3.org/1999/XPath" id="Definitions_1" name="" targetNamespace="http://www.flowable.org/processdef" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd">
+  <process id="prepare-event" isClosed="false" isExecutable="true" processType="None">
+    <extensionElements>
+      <yaoqiang:description xsi:type="xsd:anyType"/>
+      <yaoqiang:pageFormat height="841.8897637795276" imageableHeight="831.8897637795276" imageableWidth="588.1102362204724" imageableX="5.0" imageableY="5.0" orientation="0" width="598.1102362204724"/>
+      <yaoqiang:page background="#FFFFFF" horizontalCount="1" verticalCount="1"/>
+    </extensionElements>
+    <startEvent id="_event_planifier" isInterrupting="true" name="Préparer l'évènement" parallelMultiple="false">
+      <outgoing>SequenceFlow_1</outgoing>
+      <outputSet id="OutputSet_1"/>
+    </startEvent>
+    <endEvent id="_end" name="Fin préparer l'évènement">
+      <incoming>SequenceFlow_1</incoming>
+      <inputSet id="InputSet_1"/>
+    </endEvent>
+    <sequenceFlow id="SequenceFlow_1" sourceRef="_event_planifier" targetRef="_end"/>
+  </process>
+  <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-prepare-event" name="Untitled Diagram" resolution="96.0">
+    <bpmndi:BPMNPlane bpmnElement="prepare-event">
+      <bpmndi:BPMNShape bpmnElement="_event_planifier" id="Yaoqiang-_event_planifier">
+        <omgdc:Bounds height="32.0" width="32.0" x="187.0" y="232.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="18.96" width="84.0" x="161.0" y="264.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_end" id="Yaoqiang-_end">
+        <omgdc:Bounds height="32.0" width="32.0" x="370.0" y="232.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="18.96" width="101.0" x="336.0" y="264.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="SequenceFlow_1" id="Yaoqiang-SequenceFlow_1">
+        <omgdi:waypoint x="219.0" y="248.0"/>
+        <omgdi:waypoint x="294.0" y="248.0"/>
+        <omgdi:waypoint x="370.0" y="248.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="18.96" width="6.0" x="291.5" y="238.52"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,67 +1,24 @@
-package fr.unice.polytech.bpm.schedule;
+package fr.unice.polytech.bpm.process.commands.list;
 
+import fr.unice.polytech.bpm.Role;
+import fr.unice.polytech.bpm.process.commands.PromptCommand;
 import org.flowable.engine.ProcessEngine;
-import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.task.Task;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-/**
- * Supervisor task
- */
-public class ScheduleSupervisorTask extends ProcessTask {
+public class OrganizerExecuteTaskCommand extends PromptCommand {
 
-    private static final String PROCESS_DEFINITION_KEY = "schedule";
-    private static final String SUPERVISOR_ID = "supervisor";
-    private static final String NEW = "creer";
-    private static final String LIST = "lister";
-    private static final String EXECUTE = "executer";
     private static final String GET_COMPANY_AVAILABILITY = "Récupérer disponnibilités des entreprises";
     private static final String SELECT_LOCATION = "Choisir un lieu";
     private static final String SELECT_DATE = "Choisir une date";
 
-    /**
-     * Instantiates a new supervisor task
-     * @param engine
-     */
-    public ScheduleSupervisorTask(ProcessEngine engine) {
-        super(engine);
-    }
-
-    /**
-     * Execute supervisor role
-     */
     @Override
-    public void run() {
-        String action = nextLine(String.format("Que voulez vous faire (%s,%s,%s) ? ", NEW, LIST, EXECUTE));
-        // Handle the differenr actions
-        switch (action) {
-            case NEW:
-                createNewProcess();
-                break;
-            case LIST:
-                listTasks();
-                break;
-            case EXECUTE:
-                executeTask();
-                break;
-            default:
-                // Default fallback, no valid action given
-                System.err.println("Action invalide!");
-                break;
-        }
-    }
-
-    /**
-     * Execute a task
-     */
-    private void executeTask() {
+    public void execute(ProcessEngine context) {
         String taskId = nextLine("Quelle tache #? ");
-        TaskService taskService = engine.getTaskService();
+        TaskService taskService = context.getTaskService();
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 
         // Ff the task is found, complete it
@@ -69,7 +26,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
             // TODO: check that role can validate task
             System.out.println("Tâche invalide!");
         } else {
-            completeTask(task);
+            completeTask(context, task);
         }
     }
 
@@ -77,8 +34,8 @@ public class ScheduleSupervisorTask extends ProcessTask {
      * Complete a task according to the user input
      * @param task
      */
-    private void completeTask(Task task) {
-        TaskService taskService = engine.getTaskService();
+    private void completeTask(ProcessEngine context, Task task) {
+        TaskService taskService = context.getTaskService();
         Map<String, Object> variables = new HashMap<>();
         // Get the variables of the task
         switch(task.getName()) {
@@ -118,7 +75,7 @@ public class ScheduleSupervisorTask extends ProcessTask {
      * @return
      */
     private String getCompanyDates(String sophiaTechId) {
-       return "Dates des étudiants (TODO)";
+        return "Dates des étudiants (TODO)";
     }
 
     /**
@@ -161,32 +118,13 @@ public class ScheduleSupervisorTask extends ProcessTask {
         variables.put("availability", details);
     }
 
-    /**
-     * List all the current asks
-     */
-    private void listTasks() {
-        TaskService taskService = engine.getTaskService();
-        // List the different tasks and display them
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(SUPERVISOR_ID).list();
-        // If no task, happy face
-        if (tasks.isEmpty()) {
-            System.out.println("Vous avez rien à faire :D!");
-        } else {
-            // Else, sad face we have some work to do. Display the tasks
-            System.out.println("Voici les tâches que vous devez faire:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i+1) + ") " + tasks.get(i).getName() + " #" + tasks.get(i).getId());
-            }
-        }
+    @Override
+    public Role getRole() {
+        return Role.ORGANIZER;
     }
 
-    /**
-     * Create a new process
-     */
-    private void createNewProcess() {
-        RuntimeService runtimeService = engine.getRuntimeService();
-        // Create a new instance of the schedule process and display its id
-        ProcessInstance inst = runtimeService.startProcessInstanceByKey(PROCESS_DEFINITION_KEY, new HashMap<>());
-        System.out.println("Sophia-Tech forum (planification), #" + inst.getId() + " créé");
+    @Override
+    public String name() {
+        return "executer";
     }
 }

@@ -36,6 +36,13 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.21</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.10</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -45,7 +52,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>fr.unice.polytech.bpm.schedule.Schedule</mainClass>
+                    <mainClass>fr.unice.polytech.bpm.process.SophiaTechForumProcess</mainClass>
                 </configuration>
             </plugin>
             <plugin>

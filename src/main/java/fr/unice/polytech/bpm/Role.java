@@ -13,6 +13,14 @@ public enum Role {
     }
 
     /**
+     * Get name
+     * @return
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
      *
      * @param name
      * @return a role from its name
