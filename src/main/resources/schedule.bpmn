@@ -24,7 +24,7 @@
     </serviceTask>
     <sequenceFlow id="_event_get_student_schedule" sourceRef="_parralel_0" targetRef="get_student_schedule"/>
     <sequenceFlow id="_event_end_get_student_schedule" sourceRef="get_student_schedule" targetRef="parallel_1"/>
-    <userTask id="get_company_availability" flowable:candidateGroups="supervisor" name="Récupérer disponnibilités des entreprises" implementation="##unspecified">
+    <userTask id="get_company_availability" flowable:candidateGroups="location_manager" name="Récupérer disponnibilités des entreprises" implementation="##unspecified">
       <incoming>_event_get_company_availability</incoming>
       <outgoing>_event_end_get_company_availability</outgoing>
     </userTask>

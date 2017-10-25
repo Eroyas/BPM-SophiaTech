@@ -8,14 +8,14 @@ import org.flowable.engine.ProcessEngine;
 /**
  * SupervisorTask task
  */
-public class OrganizerTask extends ProcessTask {
+public class LocationManagerTask extends ProcessTask {
 
     /**
-     * Instantiates a new organizer task
+     * Instantiates a new supervisor task
      * @param engine
      */
-    public OrganizerTask(CommandRegistry commands, ProcessEngine engine) {
-        super(Role.ORGANIZER, commands, engine);
+    public LocationManagerTask(CommandRegistry commands, ProcessEngine engine) {
+        super(Role.LOCATION_MANAGER, commands, engine);
     }
 
 }

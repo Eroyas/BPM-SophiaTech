@@ -9,7 +9,9 @@ import org.flowable.engine.task.Task;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SupervisorExecuteTaskCommand extends PromptCommand {
+public class LocationManagerExecuteTaskCommand extends PromptCommand {
+
+    private static final String SELECT_LOCATIONS = "Sélectionner lieux";
 
     @Override
     public void execute(ProcessEngine context) {
@@ -35,6 +37,9 @@ public class SupervisorExecuteTaskCommand extends PromptCommand {
         Map<String, Object> variables = new HashMap<>();
         // Get the variables of the task
         switch(task.getName()) {
+            case SELECT_LOCATIONS:
+                fillLocations(variables);
+                break;
             default:
                 System.err.println("TODO: Tâche avec aucune entrée!!");
         }
@@ -53,7 +58,7 @@ public class SupervisorExecuteTaskCommand extends PromptCommand {
 
     @Override
     public Role getRole() {
-        return Role.SUPERVISOR;
+        return Role.LOCATION_MANAGER;
     }
 
     @Override
