@@ -10,14 +10,14 @@ import java.util.List;
 
 public class SupervisorListTasksCommand extends PromptCommand {
 
-    private static final String ORGANIZER_ID = "organizer";
+    private static final String SUPERVISER_ID = "superviser";
 
     // TODO: remove duplication
     @Override
     public void execute(ProcessEngine context) {
         TaskService taskService = context.getTaskService();
         // List the different tasks and display them
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(ORGANIZER_ID).list();
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(SUPERVISER_ID).list();
         // If no task, happy face
         if (tasks.isEmpty()) {
             System.out.println("Vous avez rien à faire :D!");

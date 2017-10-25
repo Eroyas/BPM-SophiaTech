@@ -41,7 +41,7 @@ public class SupervisorExecuteTaskCommand extends PromptCommand {
                 fillLocations(variables);
                 break;
             default:
-                System.err.println("Tâche avec aucune entrée!!");
+                System.err.println("TODO: Tâche avec aucune entrée!!");
         }
         // Mark the task as completed with the user variables
         taskService.complete(task.getId(), variables);

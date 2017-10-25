@@ -61,11 +61,14 @@ public class SophiaTechForumProcess implements Process {
      */
     private void integrateSubProcess() {
         ProcessIntegration integration = new ProcessIntegration(engine);
+        // Define integrations
         integration.addSimpleTrigger("form-team", "schedule", "chose-companies");
         integration.addAggregateTrigger(new String[]{"schedule", "chose-companies"}, "notify-attendees");
         integration.addSimpleTrigger("notify-attendees", "communicate-to-students", "prepare-event");
         integration.addAggregateTrigger(new String[]{"communicate-to-students", "prepare-event"}, "achieve");
         integration.addSimpleTrigger("achieve", "feedback");
+        // Add code trigger for feedback
+        integration.addSimpleTrigger("feedback", () -> System.out.println("Fin du SophiaTech Forum"));
     }
 
     /**

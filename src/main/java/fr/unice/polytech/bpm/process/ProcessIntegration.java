@@ -33,6 +33,20 @@ public class ProcessIntegration {
      * @param toArray
      */
     public void addSimpleTrigger(String from, String ... toArray) {
+        addSimpleTrigger(from, () -> {
+            for (String toLaunch : toArray) {
+                triggerProcess(toLaunch);
+            }
+        });
+    }
+
+    /**
+     * Add a trigger.
+     * the execution of the process from will trigger the proccess in the to array
+     * @param from
+     * @param task execute when completed
+     */
+    public void addSimpleTrigger(String from, Runnable task) {
         runtimeService.addEventListener(new FlowableEventListener() {
             @Override
             public void onEvent(FlowableEvent flowableEvent) {
@@ -40,10 +54,7 @@ public class ProcessIntegration {
                 ExecutionEntityImpl e = (ExecutionEntityImpl) event.getEntity();
 
                 if (isSameProcess(from, e)) {
-                    // Launch all the different process
-                    for (String toLaunch : toArray) {
-                        triggerProcess(toLaunch);
-                    }
+                    task.run();
                 }
             }
 

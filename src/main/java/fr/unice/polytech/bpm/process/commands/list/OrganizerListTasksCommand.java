@@ -10,7 +10,7 @@ import java.util.List;
 
 public class OrganizerListTasksCommand implements Command {
 
-    private static final String SUPERVISOR_ID = "supervisor";
+    private static final String SUPERVISOR_ID = "organizer";
 
     @Override
     public void execute(ProcessEngine context) {
