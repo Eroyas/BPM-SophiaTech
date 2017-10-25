@@ -42,15 +42,6 @@ public class SupervisorExecuteTaskCommand extends PromptCommand {
         taskService.complete(task.getId(), variables);
     }
 
-    /**
-     * Fill in locations
-     * @param variables
-     */
-    private void fillLocations(Map<String, Object> variables) {
-        String location = nextLine("Lieux possibles: ");
-        variables.put("locations", location);
-    }
-
     @Override
     public Role getRole() {
         return Role.SUPERVISOR;

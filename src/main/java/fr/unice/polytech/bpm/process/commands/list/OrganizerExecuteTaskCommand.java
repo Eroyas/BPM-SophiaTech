@@ -43,7 +43,7 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
                 fillAvailabilityDetails(variables);
                 break;
             case SELECT_LOCATION:
-                fillLocation(variables);
+                fillLocation(taskService, task, variables);
                 break;
             case SELECT_DATE:
                 fillDate(variables);
@@ -91,10 +91,10 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
      * Fill in the location
      * @param variables
      */
-    private void fillLocation(Map<String, Object> variables) {
+    private void fillLocation(TaskService taskService, Task task, Map<String, Object> variables) {
         // Get the potential locations and ask for a final location
         String sophiaTechId = "TODO";//nextLine("#id de la planification: ");
-        System.out.println("Date possible pour les étudiants: " + getPossibleLocations(sophiaTechId));
+        System.out.println("Lieux possibles pour les étudiants: " + getPossibleLocations(taskService, task, sophiaTechId));
 
         String location = nextLine("Lieu du Sophia Tech Forum: ");
         variables.put("location", location);
@@ -105,8 +105,8 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
      * @param sophiaTechId
      * @return
      */
-    private String getPossibleLocations(String sophiaTechId) {
-        return "Forums (TODO)";
+    private String getPossibleLocations(TaskService taskService, Task task, String sophiaTechId) {
+        return taskService.getVariables(task.getId()).get("locations") + "";
     }
 
     /**

@@ -24,13 +24,13 @@
     </serviceTask>
     <sequenceFlow id="_event_get_student_schedule" sourceRef="_parralel_0" targetRef="get_student_schedule"/>
     <sequenceFlow id="_event_end_get_student_schedule" sourceRef="get_student_schedule" targetRef="parallel_1"/>
-    <userTask id="get_company_availability" flowable:candidateGroups="location_manager" name="Récupérer disponnibilités des entreprises" implementation="##unspecified">
+    <userTask id="get_company_availability" flowable:candidateGroups="organizer" name="Récupérer disponnibilités des entreprises" implementation="##unspecified">
       <incoming>_event_get_company_availability</incoming>
       <outgoing>_event_end_get_company_availability</outgoing>
     </userTask>
     <sequenceFlow id="_event_get_company_availability" sourceRef="_parralel_0" targetRef="get_company_availability"/>
     <sequenceFlow id="_event_end_get_company_availability" sourceRef="get_company_availability" targetRef="parallel_1"/>
-    <userTask id="get_possible_locations" flowable:candidateGroups="organizer" name="Sélectionner lieux" implementation="##unspecified">
+    <userTask id="get_possible_locations" flowable:candidateGroups="location_manager" name="Sélectionner lieux" implementation="##unspecified">
       <incoming>_event_get_possible_locations</incoming>
       <outgoing>_event_end_get_possible_locations</outgoing>
     </userTask>
@@ -42,13 +42,13 @@
       <incoming>_event_end_get_possible_locations</incoming>
       <outgoing>SequenceFlow_2</outgoing>
     </parallelGateway>
-    <userTask id="select_location" flowable:candidateGroups="supervisor" name="Choisir un lieu" implementation="##unspecified">
+    <userTask id="select_location" flowable:candidateGroups="organizer" name="Choisir un lieu" implementation="##unspecified">
       <incoming>_event_select_location</incoming>
       <outgoing>_event_end_select_location</outgoing>
     </userTask>
     <sequenceFlow id="_event_select_location" sourceRef="ParallelGateway_1" targetRef="select_location"/>
     <sequenceFlow id="_event_end_select_location" sourceRef="select_location" targetRef="_event_end_parralel_1"/>
-    <userTask id="select_date" flowable:candidateGroups="supervisor" name="Choisir une date" implementation="##unspecified">
+    <userTask id="select_date" flowable:candidateGroups="organizer" name="Choisir une date" implementation="##unspecified">
       <incoming>_event_select_date</incoming>
       <outgoing>_event_end_select_date</outgoing>
     </userTask>

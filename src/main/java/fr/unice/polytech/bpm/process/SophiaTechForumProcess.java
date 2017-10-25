@@ -20,7 +20,7 @@ public class SophiaTechForumProcess implements Process {
     /**
      * Our process engine
      */
-    private ProcessEngine engine;
+    public static ProcessEngine engine;
 
     private CommandRegistry commands;
 
