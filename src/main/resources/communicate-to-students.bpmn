@@ -15,11 +15,11 @@
       <incoming>SequenceFlow_5</incoming>
       <inputSet id="InputSet_1"/>
     </endEvent>
-    <userTask id="UserTask_1" name="Afficher des visuels sur le campus">
+    <userTask id="UserTask_1" flowable:candidateGroups="organizer" name="Afficher des visuels sur le campus">
       <incoming>SequenceFlow_3</incoming>
       <outgoing>SequenceFlow_4</outgoing>
     </userTask>
-    <userTask id="UserTask_2" name="Conception des supports de communication">
+    <userTask id="UserTask_2" flowable:candidateGroups="organizer" name="Conception des supports de communication">
       <incoming>SequenceFlow_2</incoming>
       <outgoing>SequenceFlow_3</outgoing>
     </userTask>
@@ -43,23 +43,23 @@
       <outgoing>SequenceFlow_5</outgoing>
     </parallelGateway>
     <sequenceFlow id="SequenceFlow_5" sourceRef="ParallelGateway_2" targetRef="_end"/>
-    <manualTask id="ManualTask_2" name="Campagne mail sur les adresses étudiant">
+    <userTask id="ManualTask_2" flowable:candidateGroups="organizer" name="Campagne mail sur les adresses étudiant">
       <incoming>SequenceFlow_7</incoming>
       <outgoing>SequenceFlow_14</outgoing>
-    </manualTask>
-    <userTask id="UserTask_3" name="Communiquer sur les groupes Facebook des promos">
+    </userTask>
+    <userTask id="UserTask_3" flowable:candidateGroups="organizer" name="Communiquer sur les groupes Facebook des promos">
       <incoming>SequenceFlow_8</incoming>
       <outgoing>SequenceFlow_13</outgoing>
     </userTask>
-    <userTask id="UserTask_4" name="Communiquer sur le compte Twitter de l'école">
+    <userTask id="UserTask_4" flowable:candidateGroups="organizer" name="Communiquer sur le compte Twitter de l'école">
       <incoming>SequenceFlow_6</incoming>
       <outgoing>SequenceFlow_15</outgoing>
     </userTask>
-    <userTask id="UserTask_5" name="Rappeler aux entreprises de poster des offres sur JobTeaser">
+    <userTask id="UserTask_5" flowable:candidateGroups="supervisor" name="Rappeler aux entreprises de poster des offres sur JobTeaser">
       <incoming>SequenceFlow_10</incoming>
       <outgoing>SequenceFlow_11</outgoing>
     </userTask>
-    <userTask id="UserTask_6" name="Promouvoir dans la cafet et les amphis">
+    <userTask id="UserTask_6" flowable:candidateGroups="organizer" name="Promouvoir dans la cafet et les amphis">
       <incoming>SequenceFlow_9</incoming>
       <outgoing>SequenceFlow_12</outgoing>
     </userTask>
