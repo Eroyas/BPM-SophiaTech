@@ -1,43 +1,147 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.flowable.org/processdef" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:yaoqiang="http://bpmn.sourceforge.net" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.3.Final-v20170221-1647-B60" expressionLanguage="http://www.w3.org/1999/XPath" id="Definitions_1" name="" targetNamespace="http://www.flowable.org/processdef" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd">
-  <process id="achieve" isClosed="false" isExecutable="true" processType="None">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- origin at X=0.0 Y=0.0 -->
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.flowable.org/processdef" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:yaoqiang="http://bpmn.sourceforge.net" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd http://www.omg.org/spec/BPMN/20100524/DI http://www.omg.org/spec/BPMN/20100524/DI-XMI http://www.omg.org/spec/DD/20100524/DC http://www.omg.org/spec/DD/20100524/DC-XMI http://www.omg.org/spec/DD/20100524/DI http://www.omg.org/spec/DD/20100524/DI-XMI" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.3.Final-v20170221-1647-B60" name="" targetNamespace="http://www.flowable.org/processdef">
+  <process id="achieve" isExecutable="true">
     <extensionElements>
       <yaoqiang:description xsi:type="xsd:anyType"/>
-      <yaoqiang:pageFormat height="841.8897637795276" imageableHeight="831.8897637795276" imageableWidth="588.1102362204724" imageableX="5.0" imageableY="5.0" orientation="0" width="598.1102362204724"/>
-      <yaoqiang:page background="#FFFFFF" horizontalCount="1" verticalCount="1"/>
+      <yaoqiang:pageFormat xsi:type="xsd:anyType" height="841.8897637795276" imageableHeight="831.8897637795276" imageableWidth="588.1102362204724" imageableX="5.0" imageableY="5.0" orientation="0" width="598.1102362204724"/>
+      <yaoqiang:page xsi:type="xsd:anyType" background="#FFFFFF" horizontalCount="1" verticalCount="1"/>
     </extensionElements>
-    <startEvent id="_event_planifier" isInterrupting="true" name="Exécuter l'évènement" parallelMultiple="false">
-      <outgoing>SequenceFlow_1</outgoing>
+    <startEvent id="_event_planifier" name="Exécuter l'évènement">
+      <outgoing>SequenceFlow_2</outgoing>
       <outputSet id="OutputSet_1"/>
     </startEvent>
     <endEvent id="_end" name="Fin exécuter l'évènement">
-      <incoming>SequenceFlow_1</incoming>
+      <incoming>SequenceFlow_29</incoming>
       <inputSet id="InputSet_1"/>
     </endEvent>
-    <sequenceFlow id="SequenceFlow_1" sourceRef="_event_planifier" targetRef="_end"/>
+    <userTask flowable:candidateGroups="organizer" id="UserTask_1" name="Acceuil traiteur">
+      <incoming>SequenceFlow_2</incoming>
+      <outgoing>SequenceFlow_4</outgoing>
+    </userTask>
+    <userTask flowable:candidateGroups="volunteer" id="UserTask_2" name="Aider à porter le matériel">
+      <incoming>SequenceFlow_9</incoming>
+      <outgoing>SequenceFlow_10</outgoing>
+    </userTask>
+    <userTask flowable:candidateGroups="organizer" id="UserTask_3" name="Placement des étudiants volontaires">
+      <incoming>SequenceFlow_4</incoming>
+      <outgoing>SequenceFlow_9</outgoing>
+    </userTask>
+    <userTask flowable:candidateGroups="volunteer" id="UserTask_6" name="Acceuillir et offrir le café">
+      <incoming>SequenceFlow_10</incoming>
+      <outgoing>SequenceFlow_11</outgoing>
+    </userTask>
+    <userTask flowable:candidateGroups="volunteer" id="UserTask_7" name="Distribuer badges">
+      <incoming>SequenceFlow_11</incoming>
+      <outgoing>SequenceFlow_28</outgoing>
+    </userTask>
+    <userTask flowable:candidateGroups="volunteer" id="UserTask_9" name="Distribuer ticket repas">
+      <incoming>SequenceFlow_28</incoming>
+      <outgoing>SequenceFlow_29</outgoing>
+    </userTask>
+    <sequenceFlow id="SequenceFlow_2" sourceRef="_event_planifier" targetRef="UserTask_1"/>
+    <sequenceFlow id="SequenceFlow_4" sourceRef="UserTask_1" targetRef="UserTask_3"/>
+    <sequenceFlow id="SequenceFlow_9" sourceRef="UserTask_3" targetRef="UserTask_2"/>
+    <sequenceFlow id="SequenceFlow_10" sourceRef="UserTask_2" targetRef="UserTask_6"/>
+    <sequenceFlow id="SequenceFlow_11" sourceRef="UserTask_6" targetRef="UserTask_7"/>
+    <sequenceFlow id="SequenceFlow_28" sourceRef="UserTask_7" targetRef="UserTask_9"/>
+    <sequenceFlow id="SequenceFlow_29" sourceRef="UserTask_9" targetRef="_end"/>
   </process>
   <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-achieve" name="Untitled Diagram" resolution="96.0">
-    <bpmndi:BPMNPlane bpmnElement="achieve">
-      <bpmndi:BPMNShape bpmnElement="_event_planifier" id="Yaoqiang-_event_planifier">
-        <omgdc:Bounds height="32.0" width="32.0" x="187.0" y="232.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="84.0" x="161.0" y="264.0"/>
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1" bpmnElement="achieve">
+      <bpmndi:BPMNShape id="Yaoqiang-_event_planifier" bpmnElement="_event_planifier">
+        <omgdc:Bounds height="32.0" width="32.0" x="20.0" y="231.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_1" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="28.0" width="62.0" x="5.0" y="263.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_end" id="Yaoqiang-_end">
-        <omgdc:Bounds height="32.0" width="32.0" x="370.0" y="232.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="101.0" x="336.0" y="264.0"/>
+      <bpmndi:BPMNShape id="Yaoqiang-_end" bpmnElement="_end">
+        <omgdc:Bounds height="32.0" width="32.0" x="1110.0" y="231.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="28.0" width="72.0" x="1090.0" y="263.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="SequenceFlow_1" id="Yaoqiang-SequenceFlow_1">
-        <omgdi:waypoint x="219.0" y="248.0"/>
-        <omgdi:waypoint x="294.0" y="248.0"/>
-        <omgdi:waypoint x="370.0" y="248.0"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="18.96" width="6.0" x="291.5" y="238.52"/>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_1" bpmnElement="UserTask_1" isExpanded="true">
+        <omgdc:Bounds height="50.0" width="110.0" x="110.0" y="222.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_4" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="14.0" width="81.0" x="124.0" y="240.0"/>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2" isExpanded="true">
+        <omgdc:Bounds height="50.0" width="110.0" x="450.0" y="222.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_5" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="28.0" width="96.0" x="457.0" y="233.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_3" bpmnElement="UserTask_3" isExpanded="true">
+        <omgdc:Bounds height="50.0" width="110.0" x="290.0" y="222.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_6" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="42.0" width="86.0" x="302.0" y="226.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_6" bpmnElement="UserTask_6" isExpanded="true">
+        <omgdc:Bounds height="50.0" width="110.0" x="610.0" y="222.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_10" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="28.0" width="96.0" x="617.0" y="233.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_7" bpmnElement="UserTask_7" isExpanded="true">
+        <omgdc:Bounds height="50.0" width="110.0" x="770.0" y="222.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_11" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="14.0" width="97.0" x="776.0" y="240.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_9" bpmnElement="UserTask_9" isExpanded="true">
+        <omgdc:Bounds height="50.0" width="110.0" x="920.0" y="222.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_14" labelStyle="BPMNLabelStyle_1">
+          <omgdc:Bounds height="28.0" width="91.0" x="929.0" y="233.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_2" sourceElement="Yaoqiang-_event_planifier" targetElement="BPMNShape_UserTask_1">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="52.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="81.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="110.0" y="247.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_7"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_UserTask_3">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="220.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="255.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="290.0" y="247.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_8"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_UserTask_3" targetElement="BPMNShape_UserTask_2">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="400.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="425.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="450.0" y="247.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_9"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_10" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_UserTask_6">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="560.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="585.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="610.0" y="247.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_12"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_11" sourceElement="BPMNShape_UserTask_6" targetElement="BPMNShape_UserTask_7">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="720.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="745.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="770.0" y="247.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_13"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_27" bpmnElement="SequenceFlow_28" sourceElement="BPMNShape_UserTask_7" targetElement="BPMNShape_UserTask_9">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="880.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="900.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="920.0" y="247.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_15"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_28" bpmnElement="SequenceFlow_29" sourceElement="BPMNShape_UserTask_9" targetElement="Yaoqiang-_end">
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1030.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1070.0" y="247.0"/>
+        <omgdi:waypoint xsi:type="omgdc:Point" x="1110.0" y="247.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_16"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">
+      <omgdc:Font name="arial" size="9.0"/>
+    </bpmndi:BPMNLabelStyle>
   </bpmndi:BPMNDiagram>
 </definitions>
