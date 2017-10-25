@@ -40,8 +40,8 @@ public class LocationManagerExecuteTaskCommand extends PromptCommand {
             case SELECT_LOCATIONS:
                 fillLocations(variables);
                 break;
-            default:
-                System.err.println("TODO: Tâche avec aucune entrée!!");
+            /*default:
+                System.err.println("TODO: Tâche avec aucune entrée!!");*/
         }
         // Mark the task as completed with the user variables
         taskService.complete(task.getId(), variables);

@@ -15,7 +15,8 @@ public class GroupCompanyList implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Regroupement des listes");
-        delegateExecution.setVariable("registered", "bob,alice,amadeus");
-        System.out.println("Bob, Alice, Amadeus");
+        System.out.println("["+delegateExecution.getVariable("pre-registered")+"] et [tales]");
+        delegateExecution.setVariable("registered", delegateExecution.getVariable("pre-registered")+",tales");
+        System.out.println(delegateExecution.getVariable("registered"));
     }
 }

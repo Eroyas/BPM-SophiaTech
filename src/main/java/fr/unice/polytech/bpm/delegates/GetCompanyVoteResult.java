@@ -15,7 +15,7 @@ public class GetCompanyVoteResult implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Récupération des votes utilisateurs");
-        delegateExecution.setVariable("votes", "amadeus:10,");
+        delegateExecution.setVariable("vote-company", "amadeus:10,air-france:10");
         System.out.println("Le système a récupéré les votes utilisateurs");
     }
 }

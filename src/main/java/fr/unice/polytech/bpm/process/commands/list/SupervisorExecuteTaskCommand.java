@@ -35,8 +35,8 @@ public class SupervisorExecuteTaskCommand extends PromptCommand {
         Map<String, Object> variables = new HashMap<>();
         // Get the variables of the task
         switch(task.getName()) {
-            default:
-                System.err.println("TODO: Tâche avec aucune entrée!!");
+           /* default:
+                System.err.println("TODO: Tâche avec aucune entrée!!");*/
         }
         // Mark the task as completed with the user variables
         taskService.complete(task.getId(), variables);

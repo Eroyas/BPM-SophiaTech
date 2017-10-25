@@ -15,7 +15,7 @@ public class ListPreRegistered implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
         System.out.println("Liste des pré-inscrits:");
-        delegateExecution.setVariable("pre-registered", "bob,alice");
-        System.out.println("Bob, Alice");
+        delegateExecution.setVariable("pre-registered", "amadeus,air-france");
+        System.out.println(delegateExecution.getVariable("pre-registered"));
     }
 }
