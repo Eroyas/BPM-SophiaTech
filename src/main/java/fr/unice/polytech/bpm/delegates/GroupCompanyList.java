@@ -1,13 +1,12 @@
 package fr.unice.polytech.bpm.delegates;
 
-import fr.unice.polytech.bpm.process.SophiaTechForumProcess;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 
 /**
  * Get student schedule and find proper date
  */
-public class GetStudentSchedule implements JavaDelegate {
+public class GroupCompanyList implements JavaDelegate {
 
     /**
      * Compute the possible days for a Sophia Tech Forum for the students
@@ -15,8 +14,9 @@ public class GetStudentSchedule implements JavaDelegate {
      */
     @Override
     public void execute(DelegateExecution delegateExecution) {
-        System.out.println("Calcule de dates possibles pour les étudiants");
-        delegateExecution.setVariable("student-availability", "Le 26 octobre 2017");
-        System.out.println("Le système a trouvé des dates possibles pour les étudiants");
+        System.out.println("Regroupement des listes");
+        System.out.println("["+delegateExecution.getVariable("pre-registered")+"] et [tales]");
+        delegateExecution.setVariable("registered", delegateExecution.getVariable("pre-registered")+",tales");
+        System.out.println(delegateExecution.getVariable("registered"));
     }
 }

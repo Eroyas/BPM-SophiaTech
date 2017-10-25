@@ -71,7 +71,7 @@ public class ProcessIntegration {
      */
     private void triggerProcess(String toLaunch) {
         ProcessInstance inst = runtimeService.startProcessInstanceByKey(toLaunch, new HashMap<>());
-        System.out.println("Sous-process " + toLaunch + " créé par intégration");
+        System.out.println("[LOG] Sous-process " + toLaunch + " créé par intégration");
     }
 
     /**
@@ -104,7 +104,7 @@ public class ProcessIntegration {
                         queue.add(1);
                         // Launch the different process if we all the process have been completed
                         if (queue.size() == size) {
-                            System.out.println("We waited for all the sub-processes. Continuing the flow");
+                            System.out.println("[LOG] We waited for all the sub-processes. Continuing the flow");
                             for (String toLaunch : to) {
                                 triggerProcess(toLaunch);
                             }

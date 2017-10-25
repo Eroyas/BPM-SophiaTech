@@ -43,13 +43,13 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
                 fillAvailabilityDetails(variables);
                 break;
             case SELECT_LOCATION:
-                fillLocation(variables);
+                fillLocation(taskService, task, variables);
                 break;
             case SELECT_DATE:
-                fillDate(variables);
+                fillDate(taskService, task, variables);
                 break;
-            default:
-                System.err.println("TODO: Tâche avec aucune entrée!!");
+            /*default:
+                System.err.println("TODO: Tâche avec aucune entrée!!");*/
         }
         // Mark the task as completed with the user variables
         taskService.complete(task.getId(), variables);
@@ -59,11 +59,10 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
      * Fill in date
      * @param variables
      */
-    private void fillDate(Map<String, Object> variables) {
+    private void fillDate(TaskService taskService, Task task, Map<String, Object> variables) {
         // Get the dates from the previous tasks and ask for a final date
-        String sophiaTechId = "TODO";//nextLine("#id de la planification: ");
-        System.out.println("Date possible pour les étudiants: " + getStudentDates(sophiaTechId));
-        System.out.println("Date possible pour les entreprises: " + getCompanyDates(sophiaTechId));
+        System.out.println("Date possible pour les étudiants: " + getStudentDates(taskService, task));
+        System.out.println("Date possible pour les entreprises: " + getCompanyDates(taskService, task));
 
         String location = nextLine("Date du Sophia Tech Forum: ");
         variables.put("date", location);
@@ -71,30 +70,28 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
 
     /**
      * Get company dates
-     * @param sophiaTechId
      * @return
      */
-    private String getCompanyDates(String sophiaTechId) {
-        return "Dates des étudiants (TODO)";
+    private String getCompanyDates(TaskService taskService, Task task) {
+        return taskService.getVariables(task.getId()).get("company-availability") + "";
     }
 
     /**
      * Get student dates
-     * @param sophiaTechId
      * @return
      */
-    private String getStudentDates(String sophiaTechId) {
-        return "Dates des entreprises (TODO)";
+    private String getStudentDates(TaskService taskService, Task task) {
+        return taskService.getVariables(task.getId()).get("student-availability") + "";
     }
 
     /**
      * Fill in the location
      * @param variables
      */
-    private void fillLocation(Map<String, Object> variables) {
+    private void fillLocation(TaskService taskService, Task task, Map<String, Object> variables) {
         // Get the potential locations and ask for a final location
         String sophiaTechId = "TODO";//nextLine("#id de la planification: ");
-        System.out.println("Date possible pour les étudiants: " + getPossibleLocations(sophiaTechId));
+        System.out.println("Lieux possibles pour les étudiants: " + getPossibleLocations(taskService, task, sophiaTechId));
 
         String location = nextLine("Lieu du Sophia Tech Forum: ");
         variables.put("location", location);
@@ -105,8 +102,8 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
      * @param sophiaTechId
      * @return
      */
-    private String getPossibleLocations(String sophiaTechId) {
-        return "Forums (TODO)";
+    private String getPossibleLocations(TaskService taskService, Task task, String sophiaTechId) {
+        return taskService.getVariables(task.getId()).get("locations") + "";
     }
 
     /**
@@ -115,7 +112,7 @@ public class OrganizerExecuteTaskCommand extends PromptCommand {
      */
     private void fillAvailabilityDetails(Map<String, Object> variables) {
         String details = nextLine("Entrez les disponnibilités: ");
-        variables.put("availability", details);
+        variables.put("company-availability", details);
     }
 
     @Override

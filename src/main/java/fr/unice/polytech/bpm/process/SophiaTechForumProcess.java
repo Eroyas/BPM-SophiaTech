@@ -4,8 +4,13 @@ import fr.unice.polytech.bpm.Role;
 import fr.unice.polytech.bpm.engine.BPMNFactory;
 import fr.unice.polytech.bpm.process.commands.CommandRegistry;
 import fr.unice.polytech.bpm.process.tasks.OrganizerTask;
+import org.flowable.engine.HistoryService;
 import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.ProcessEngines;
+import org.flowable.engine.TaskService;
+import org.flowable.engine.history.HistoricActivityInstance;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.engine.task.Task;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
@@ -20,7 +25,7 @@ public class SophiaTechForumProcess implements Process {
     /**
      * Our process engine
      */
-    private ProcessEngine engine;
+    public static ProcessEngine engine;
 
     private CommandRegistry commands;
 
@@ -69,8 +74,32 @@ public class SophiaTechForumProcess implements Process {
         integration.addSimpleTrigger("achieve", "feedback");
         // Add code trigger for feedback
         integration.addSimpleTrigger("feedback", () -> System.out.println("Fin du SophiaTech Forum"));
+        integration.addSimpleTrigger("feedback", SophiaTechForumProcess.this::displayMetrics);
     }
 
+    /**
+     * Display the metrics
+     */
+    private void displayMetrics() {
+        HistoryService historyService = engine.getHistoryService();
+        List<ProcessInstance> instances = engine.getRuntimeService()
+                .createProcessInstanceQuery()
+                .list();
+
+        for(ProcessInstance processInstance: instances) {
+            System.out.println("Metrics for process instance" + processInstance.getId());
+            List<HistoricActivityInstance> activities =
+                    historyService.createHistoricActivityInstanceQuery()
+                            .processInstanceId(processInstance.getId())
+                            .orderByHistoricActivityInstanceEndTime().asc()
+                            .list();
+            for (HistoricActivityInstance activity : activities) {
+                System.out.println(activity.getActivityId() + " took "
+                        + activity.getDurationInMillis() + " milliseconds");
+            }
+            System.out.println("");
+        }
+    }
     /**
      * Register our different tasks
      */
@@ -96,6 +125,7 @@ public class SophiaTechForumProcess implements Process {
         Scanner scanner = new Scanner(System.in);
         // While the role isn't empty (empty=user stop)
         while (true) {
+            displayCurrentTasks();
             Optional<Role> role = askRole(scanner);
             // If we have a user, do the different user actions
             if (role.isPresent()) {
@@ -117,6 +147,28 @@ public class SophiaTechForumProcess implements Process {
             }
         }
         scanner.close();
+    }
+
+    /**
+     * Display the current asks
+     */
+    private void displayCurrentTasks() {
+        TaskService taskService = engine.getTaskService();
+        System.out.println("========================================");
+        System.out.println("Voici les tâches qu'il y a à faire:");
+        for (Role role : Role.values()) {
+            String candidateGroup = role.name().toLowerCase();
+            // List the different tasks and display them
+            List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(candidateGroup).list();
+            // If some some tasks for the candidate group
+            if (!tasks.isEmpty()) {
+                // Else, sad face we have some work to do. Display the tasks
+                for (int i = 0; i < tasks.size(); i++) {
+                    System.out.println("#" + tasks.get(i).getId() + " " + tasks.get(i).getName() + " [" + role.getName() + "]");
+                }
+            }
+        }
+        System.out.println("========================================");
     }
 
 
