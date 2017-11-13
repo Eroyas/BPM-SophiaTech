@@ -1,5 +1,4 @@
 #!/bin/bash
 
 set -e
-docker run -it bpm-stf "sh"
-mvn exec:java
+docker run -it bpm-stf
