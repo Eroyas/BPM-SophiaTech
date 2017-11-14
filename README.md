@@ -9,19 +9,21 @@ L'implémentation est découpée en sous process indépendants et leurs intérac
 
 ## Points positifs
 Ce projet permet d'exécuter notre proposition du Business Process du Sophia Tech Forum. Il est également possible d'automatiser totalement son exécution pour récuperer des metrics et ainsi potentiellement améliorer ce Business Process.
+L'utilisation de Flowable nous permet d'utiliser son process engine pour controler l'éxécution de notre BPM
+
 
 ## Points négatifs
 Ce projet ne dispose pas d'implémentations poussés au niveau des tâches systèmes. 
 L'interaction avec les utilisateurs s'effectue seulement par le biais d'une console et est donc peu utilisable. 
 
 ## Dépendences
-Ce projet nécessite Java 8 et Docker
+Ce projet nécessite Java 8 et Maven pour le développement et Docker pour le déploiement.
 
 ## Construction
-```./build.sh``` permet de construire le projet
+```./build.sh``` permet de construire le projet et l'image docker
 
 ## Démarrage
-```./start.sh``` permet de lancer le projet
+```./start.sh``` permet de lancer l'image docker (et donc le projet)
 
 
 ## Auteurs
