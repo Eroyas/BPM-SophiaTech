@@ -2,15 +2,6 @@ FROM java:8-jdk
 
 WORKDIR /root
 
-RUN apt-get update && apt-get --no-install-recommends install -y maven && rm -rf /var/lib/apt/lists/*
+COPY ./target/flowable-sophia-tech-1.0-SNAPSHOT-jar-with-dependencies.jar .
 
-RUN mkdir BPM-SophiaTech
-
-COPY src/ BPM-SophiaTech/src
-COPY pom.xml BPM-SophiaTech/pom.xml
-
-WORKDIR /root/BPM-SophiaTech
-
-RUN mvn clean package
-
-ENTRYPOINT ["mvn", "exec:java"]
+ENTRYPOINT ["java", "-jar", "flowable-sophia-tech-1.0-SNAPSHOT-jar-with-dependencies.jar"]

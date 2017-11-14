@@ -10,6 +10,15 @@ if [ "$PATH_TO_SCRIPT" != "." ]; then
 fi
 
 echo "Building Additional Pylons..."
+mvn clean compile assembly:single
+if [ "$?" = "0" ]; then
+    echo "OK"
+else
+    echo "FAILURE"
+    exit 1
+fi
+
+echo "Building More Supply Depot..."
 docker build -t bpm-stf .
 if [ "$?" = "0" ]; then
     echo "OK"
