@@ -51,7 +51,8 @@ public class BPMNFactory {
                 .setJdbcUsername("sa")
                 .setJdbcPassword("")
                 .setJdbcDriver("org.h2.Driver")
-                .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+                .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
+                .setAsyncExecutorActivate(true);
         ProcessEngine processEngine = cfg.buildProcessEngine();
         // Add resources
         addResources(processEngine, resources);

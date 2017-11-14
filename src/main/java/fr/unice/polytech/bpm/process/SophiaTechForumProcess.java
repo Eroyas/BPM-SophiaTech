@@ -200,6 +200,7 @@ public class SophiaTechForumProcess implements Process {
      */
     public void stop() {
         ProcessEngines.destroy();
+        System.exit(0);
     }
 
 
